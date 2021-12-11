@@ -3,7 +3,7 @@ require_once "include/functions.php";
 $info = '';
 $task = $_GET['task'] ?? 'report';
 if('seed' == $task) {
-    seed(DB_NAME);
+    seed(); // this is a function
     $info = "Seeding done";
 }
 ?>
@@ -33,16 +33,23 @@ if('seed' == $task) {
 
                 <?php include_once('include/templates/nav.php')?>
 
-                <p>
-                    <?php 
+                <hr/>
+                <?php 
                     if($info!=''){
                         echo "<p>($info)</p>";
                     }
-                    ?>
-                </p>
-
+                ?>
             </div>
         </div>
+
+        <?php if('report' == $task): ?>
+        <div class="row">
+            <div class="column column-60 column-offset-20">
+                <?php generateReport(); ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
     </div>   
 </body>
 </html>
