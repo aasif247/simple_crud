@@ -60,7 +60,7 @@ function generateReport(){
                 </td>
                 
                 <td>
-                    <?php printf('<a href="#">Edit</a> | <a href="#">Delete</a>');?>
+                    <?php printf('<a href="/index.php?task=edit&id=%s">Edit</a> | <a href="/index.php?task=delete&id=%s">Delete</a>',$student['id'],$student['id']);?>
                 </td>
             </tr>  
 
