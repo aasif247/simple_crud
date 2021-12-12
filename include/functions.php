@@ -75,19 +75,30 @@ function generateReport(){
 
 
 function addStudent($fname, $lname, $roll){
+    $found = false;
     $serialized_data = file_get_contents(DB_NAME);
     $students = unserialize($serialized_data);
-    $newId = count($students) + 1;
-    $student = array(
-        'id' => $newId,
-        'fname' => $fname,
-        'lname' => $lname,
-        'roll' => $roll
-    );
-    array_push($students, $student);
-    $serialized_data = serialize($students);
-    file_put_contents(DB_NAME, $serialized_data,LOCK_EX);
-}
+    foreach($students as $_student){
+        if($_student['roll']==$roll){
+            $found = true;
+            break;
+        }
+    }
+    if(!$found){
+        $newId = count($students) + 1; // this is the new id
+        $student = array(
+            'id' => $newId,
+            'fname' => $fname,
+            'lname' => $lname,
+            'roll' => $roll
+        );
+        array_push($students, $student);
+        $serialized_data = serialize($students);
+        file_put_contents(DB_NAME, $serialized_data,LOCK_EX);
+        return true;
+    }
+    return false;
 
+}
 
 ?>

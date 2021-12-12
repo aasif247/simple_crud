@@ -2,6 +2,7 @@
 require_once "include/functions.php";
 $info = '';
 $task = $_GET['task'] ?? 'report';
+$error = $_GET['error'] ?? '0';
 if('seed' == $task) {
     seed(); // this is a function
     $info = "Seeding done";
@@ -13,8 +14,13 @@ if(isset($_POST['submit'])){
     $roll = filter_input(INPUT_POST, 'roll',FILTER_SANITIZE_STRING);
 
     if($fname !='' && $lname !='' && $roll !='' ){ 
-        addStudent($fname,$lname,$roll);
-        header('location: /index.php?task=report');
+        $result = addStudent($fname,$lname,$roll);
+        if($result){
+            header('location: /index.php?task=report');
+        }else{
+            header('location: /index.php?task=report&error=1');
+        }
+        
     }
 }
 ?>
@@ -53,6 +59,17 @@ if(isset($_POST['submit'])){
                 ?>
             </div>
         </div>
+        
+        <?php if($error == '1'): ?>
+        <div class="row">
+            <div class="column column-60 column-offset-20">
+                <blockquote>
+                    Duplicate roll found
+                </blockquote>
+            </div>
+        </div>
+        <?php endif; ?>
+
 
         <?php if('report' == $task): ?>
         <div class="row">
