@@ -7,6 +7,9 @@ if('seed' == $task) {
     seed(); // this is a function
     $info = "Seeding done";
 }
+$fname = ''; 
+$lname = ''; 
+$roll = ''; 
 
 if(isset($_POST['submit'])){
     $fname = filter_input(INPUT_POST, 'fname',FILTER_SANITIZE_STRING);
@@ -18,9 +21,8 @@ if(isset($_POST['submit'])){
         if($result){
             header('location: /index.php?task=report');
         }else{
-            header('location: /index.php?task=report&error=1');
+            $error = 1;
         }
-        
     }
 }
 ?>
@@ -84,13 +86,13 @@ if(isset($_POST['submit'])){
             <div class="column column-60 column-offset-20">
                 <form action="index.php?task=add" method="POST">
                     <label for="fname">First Name</label>
-                    <input type="text" name="fname" id="fname">
+                    <input type="text" name="fname" id="fname" value="<?php echo $fname; ?>">
 
                     <label for="lname">Last Name</label>
-                    <input type="text" name="lname" id="lname">
+                    <input type="text" name="lname" id="lname" value="<?php echo $lname; ?>">
 
                     <label for="roll">Roll</label>
-                    <input type="number" name="roll" id="roll">
+                    <input type="number" name="roll" id="roll" value="<?php echo $roll; ?>">
 
                     <button type="submit" class="button-primary"  name="submit">Save</button>
                 </form>
