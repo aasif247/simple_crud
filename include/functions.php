@@ -78,8 +78,8 @@ function addStudent($fname, $lname, $roll){
     $found = false;
     $serialized_data = file_get_contents(DB_NAME);
     $students = unserialize($serialized_data);
-    foreach($students as $_student){
-        if($_student['roll']==$roll){
+    foreach($students as $student){
+        if($student['roll']==$roll){
             $found = true;
             break;
         }
@@ -101,4 +101,35 @@ function addStudent($fname, $lname, $roll){
 
 }
 
-?>
+function getStudent($id){
+    $serialized_data = file_get_contents(DB_NAME);
+    $students = unserialize($serialized_data);
+    foreach($students as $student){
+        if($student['id']==$id){
+            return $student;
+        }
+    }
+    return false;
+}
+
+function updateStudent($id, $fname, $lname, $roll){
+    $found = false;
+    $serialized_data = file_get_contents(DB_NAME);
+    $students = unserialize($serialized_data);
+    foreach($students as $student){
+        if($student['roll']==$roll & $student['id']!=$id){  // if the roll is already taken
+            $found = true;
+            break;
+        }
+    }
+    if(!$found){
+        $students[$id-1]['fname'] = $fname;
+        $students[$id-1]['lname'] = $lname;
+        $students[$id-1]['roll']  = $roll;
+        $serialized_data = serialize($students);
+        file_put_contents(DB_NAME, $serialized_data,LOCK_EX);
+        return true;
+    }
+    return false; 
+        
+}
