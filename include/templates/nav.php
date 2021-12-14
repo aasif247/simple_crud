@@ -21,7 +21,7 @@
         <?php
         else:
         ?>
-        <a href="/auth.php?logout=true">Logout</a>
+        <a href="/auth.php?logout=true">Logout (<?php echo $_SESSION['role'] ?>)</a>
         <?php
         endif;
         ?>

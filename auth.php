@@ -12,10 +12,12 @@ $fp = fopen("data/users.txt", "r");
 if($username && $password){
     $_SESSION['loggedin'] = false;
     $_SESSION['user'] = false;
+    $_SESSION['role'] = false;
     while($data = fgetcsv($fp)){
         if($data[0] == $username && $data[1] == sha1($password)){
             $_SESSION['loggedin'] = true;
             $_SESSION['user'] = $username;
+            $_SESSION['role'] = $data[2];
             header('location: index.php');
         }
     }
@@ -27,6 +29,8 @@ if($username && $password){
 if(isset($_GET['logout'])){
     $_SESSION['loggedin'] = false;
     $_SESSION['user'] = false;
+    $_SESSION['role'] = false;
+
     session_destroy();
     header("Location: index.php");
 }
