@@ -3,16 +3,27 @@
         <p>
             <a href="/index.php?task=report">All Students</a>
             |
-            <a href="/index.php?task=add">Add new student</a>
+            <?php if(hasPrivilege() ): ?>
+
+                <a href="/index.php?task=add">Add New Student</a>    
+            
+            <?php endif; ?>
+
+            
+            <?php
+			if ( isAdmin() ):
+			?>
             |
             <a href="/index.php?task=seed">Seed</a>
+            <?php
+			endif;
+			?>
         </p>
 
     </div>
 
     <div class="float-right">
         <?php
-        session_start();
         // if (!$_SESSION['loggedin']):
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true): // this code is working but don't figure it out
     

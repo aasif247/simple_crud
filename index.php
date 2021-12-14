@@ -5,6 +5,10 @@ $task = $_GET['task'] ?? 'report';
 $error = $_GET['error'] ?? '0';
 
 if('delete'== $task) {
+    if(!isAdmin()){
+        header('location: /index.php?task=report');
+        return;
+    }
     $id = filter_input(INPUT_GET, 'id',FILTER_SANITIZE_STRING);
     if($id>0){
         deleteStudent($id);
@@ -12,8 +16,17 @@ if('delete'== $task) {
     }
 }
 if('seed' == $task) {
+    if(!isAdmin()){
+        header('location: /index.php?task=report');
+    }
     seed(); // this is a function
     $info = "Seeding done";
+}
+
+if('edit' == $task){
+    if(!hasPrivilege()){
+        header('location: /index.php?task=report');
+    }
 }
 $fname = ''; 
 $lname = ''; 
